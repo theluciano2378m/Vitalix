@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Vitalix</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f8ff;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            border: 2px solid #5E17EB;
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            position: fixed;
+            top: 10px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 38px;
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            color: #333333;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #555555;
+            font-size: 18px;
+        }
+
+        #verse-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #verse-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        #verse-reference {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555555;
+        }
+
+        .share-button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: #25d366;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .share-button:hover {
+            background-color: #1ebd59;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 80%;
+            max-width: 300px;
+            position: fixed;
+            bottom: 20px;
+        }
+
+        .option-button, .iniciar-button {
+            padding: 16px 24px;
+            font-size: 16px;
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .option-button {
+            background-color: #5E17EB;
+        }
+
+        .option-button:hover {
+            background-color: #5E17AA;
+        }   
+
+        .option-button:active {
+            transform: rotateY(360deg);
+        }
+
+        .iniciar-button {
+            background-color: #2196F3;
+        }
+
+        .iniciar-button:hover {
+            background-color: #1976D2;
+        }
+
+        .iniciar-button:active {
+            transform: rotateY(360deg);
+        }
+
+        .option-button i, .iniciar-button i {
+            margin-right: 8px;
+        }
+
+        /* Menú lateral */
+        .menu-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 28px;
+            color: #333333;
+            cursor: pointer;
+            z-index: 1001;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-icon.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sidebar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #ffffff;
+            border-right: 1px solid #ccc;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.visible {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .sidebar button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar button i {
+            margin-right: 10px;
+        }
+
+        .sidebar .whatsapp {
+            background-color: #25d366;
+        }
+
+        .sidebar .whatsapp:hover {
+            background-color: #1ebd59;
+        }
+
+        .sidebar .facebook {
+            background-color: #3b5998;
+        }
+
+        .sidebar .facebook:hover {
+            background-color: #2d4373;
+        }
+
+        .sidebar .instagram {
+            background-color: #e4405f;
+        }
+
+        .sidebar .instagram:hover {
+            background-color: #c13584;
+        }
+
+        /* Submenú flotante */
+        .submenu {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .submenu button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            color: #ffffff;
+            background-color: #2196F3;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .submenu button:hover {
+            background-color: #1976D2;
+        }
+        
+/* Insignia de "Nuevo" */
+.new-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 13px;
+}
+.option-M {
+    position: relative;
+    padding: 16px 24px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #5E17EB;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.option-button, .iniciar-button {
+    position: relative;
+    padding: 16px 24px;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.option-L{
+    position: relative;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #25d366;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.option-L:hover {
+  background: #25d3aa;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="menu-icon" id="menu-icon"><i class="fas fa-bars"></i></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="whatsapp" onclick="window.open('https://wa.me/+541125574614', '_blank')">
+            <i class="fab fa-whatsapp"></i>Canal de Whatsapp
+        </button>
+        <button class="facebook" onclick="window.open('https://www.facebook.com/profile.php?id=61563505462251', '_blank')">
+            <i class="fab fa-facebook-f"></i>Facebook
+        </button>
+        <button class="instagram" onclick="window.open('https://www.instagram.com/vigod_oficial?igsh=MXc3cHViaDA4NGZz', '_blank')">
+            <i class="fab fa-instagram"></i>Instagram
+        </button>
+    </div>
+
+    <div class="container">
+        <h1>Vitalix</h1>
+        <h2>Palabra Diaria</h2>
+        <div id="verse-container">
+            <p id="verse-text"></p>
+            <p id="verse-reference"></p>
+        </div>
+        <button class="option-L" id="share-button"><i class="fas fa-share"></i>Compartir
+          <span class="new-badge">Via Whatsapp</span>
+        </button>
+    </div>
+
+    <div class="options">
+        <button class="iniciar-button" onclick="location.href='Canales.html'">
+            <i class="fas fa-video"></i>Canales
+        </button>
+        <button class="option-button" onclick="location.href='No Disponible.html'">
+            <i class="fas fa-warning"></i>Avisos
+           <span class="new-badge">Nuevo</span>
+        </button>
+        <button class="option-button" onclick="location.href='No Disponible.html'">
+            <i class="fas fa-church"></i>Maranata
+        </button>
+        <button class="option-M" id="more-button">
+            <i class="fas fa-plus"></i>Recursos
+            <span class="new-badge">1 Nuevo</span>
+        </button>
+        <button class="option-button" onclick="location.href='Menu.html'">
+            <i class="fas fa-bars"></i>Menu
+        </button>
+    </div>
+    
+    <div class="submenu" id="submenu">
+        <button onclick="location.href='DonesEspirituales.html'">Dones Espirituales</button>
+        <button onclick="location.href='Liberacion.html'">Liberacion</button>
+        <button onclick="location.href='EstudioBiblico.html'">Estudio Biblico</button>
+        <button onclick="location.href='GuiaAyuno.html'">Guia de Ayuno</button>
+        <button onclick="location.href='PlandeLectura.html'">Plan de Lectura</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const verses = [
+{ text: "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.", reference: "Juan 3:16" },
+                { text: "El Señor es mi pastor; nada me faltará.", reference: "Salmos 23:1" },
+                { text: "La oración es el aliento del alma y la conexión con Díos.", reference: "Andrew Murray" },
+                { text: "Todo lo puedo en Cristo que me fortalece.", reference: "Filipenses 4:13" },
+                { text: "Confía en el Señor con todo tu corazón y no te apoyes en tu propia prudencia.", reference: "Proverbios 3:5" },
+                { text: "Bienaventurados los que tienen hambre y sed de justicia, porque ellos serán saciados.", reference: "Mateo 5:6" },
+                { text: "El amor es paciente, es bondadoso. El amor no es envidioso ni jactancioso ni orgulloso.", reference: "1 Corintios 13:4" },
+                { text: "El que guarda su boca y su lengua, su alma guarda de angustias.", reference: "Proverbios 21:23" },
+                { text: "Porque donde esté vuestro tesoro, allí estará también vuestro corazón.", reference: "Mateo 6:21" },
+                { text: "Hijitos míos, no amemos de palabra ni de lengua, sino de hecho y en verdad.", reference: "1 Juan 3:18" },
+                { text: "Cree en el Señor Jesucristo, y serás salvo, tú y tu casa.", reference: "Hechos 16:31" },
+                { text: "Si alguno no provee para los suyos, y especialmente para los de su casa, ha negado la fe y es peor que un incrédulo.", reference: "1 Timoteo 5:8" },
+                { text: "La sabiduría de lo alto es primeramente pura, después pacífica, amable, benigna, llena de misericordia y de buenos frutos, sin incertidumbre ni hipocresía.", reference: "Santiago 3:17" },
+                { text: "Y el Dios de esperanza os llene de todo gozo y paz en el creer, para que abundéis en esperanza por el poder del Espíritu Santo.", reference: "Romanos 15:13" },
+                { text: "Pero los que esperan a Jehová tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.", reference: "Isaias 40:31" },
+                { text: "Porque la tierra será llena del conocimiento de la gloria de Jehová, como las aguas cubren el mar.", reference: "Habacuc 2:14" },
+                { text: "Ahora permanece la fe, la esperanza y el amor; estos tres pero el mayor de ellos es el Amor.", reference: "1 Corintios 13:13" },
+                { text: "porque todo aquel que invocare el nombre del Señor, será salvo.", reference: "Romanos 10:13" },
+                { text: "Pacientemente esperé a Jehová, Y se inclinó a mí, y oyó mi clamor.  Y me hizo sacar del pozo de la desesperación, del lodo cenagoso; Puso mis pies sobre peña, y enderezó mis pasos.", reference: "Salmos 40:1-2" },
+                { text: "Por lo cual dice: Despiértate, tú que duermes, Y levántate de los muertos, Y te alumbrará Cristo.", reference: "Efesios 5:14" },
+                { text: "Lo único cierto del futuro es que Díos estará con nosotros.", reference: "Marcos Witt" },
+                { text: "La fe no es tener todas las respuestas, es confiar en aquel que las tiene.", reference: "Max Lucado" },
+                { text: "La oración no es un requisito, es un privilegio.", reference: "Billy Graham" },
+                { text: "Díos no nos pide que seamos perfectos, nos pide que seamos obedientes.", reference: "Joyce Meyer" },
+                { text: "La esperanza no se ve, pero se siente en el corazón.", reference: "Charles Spurgeon" },
+                { text: "Dios es nuestro refugió y nuestra fuerza, siempre dispuesto a ayudarnos en tiempos de dificultad.", reference: "Salmos 46:1" },
+                { text: "La gratitud cambia la perspectiva de nuestra vida y nos permite ver lo bueno en cada situación.", reference: "Zig Ziglar" },
+                { text: "Dios nos llama a vivir una vida de propósito y significado.", reference: "Rick Warren" },
+                { text: "La oración es el lenguaje del alma y el susurro del corazon.", reference: "Charles Spurgeon" },
+                { text: "La vida es un regalo de Dios y debemos agradecer cada momento que vivimos.", reference: "Papa Francisco" },
+                { text: "La fe es la certeza de lo que esperamos y la convicción de lo que no vemos.", reference: "Hebreos 11:1" },
+                { text: "Dios no nos juzga por nuestra debilidades, sino por nuestras intenciones y esfuerzos.", reference: "Joel Osteen" },
+                { text: "Clama a mí, y yo te responderé, y te enseñaré cosas grandes y ocultas que tú no conoces.", reference: "Jeremías 33:3" },
+                { text: "Dios no es un observador distante de nuestras vidas, sino un Padre amoroso que nos guia y cuida en cada momento.", reference: "Rick Warren" },
+                {text: "Mas vosotros sois linaje escogido, real sacerdocio, nación santa, pueblo adquirido por Dios, para que anunciéis las virtudes de aquel que os llamó de las tinieblas a su luz admirable.", reference:"1 Pedro 2:9" },
+                {text: "no mirando nosotros las cosas que se ven, sino las que no se ven; pues las cosas que se ven son temporales, pero las que no se ven son eternas.", reference:"1 Corintios 4:18" },
+                {text: "Dios no nos promete una vida facil, pero nos promete estar con nosotros en todo momento.", reference:"Rick Warren" },
+                {text:"La oración no cambia la circunstancias, pero cambia a las personas que oran.", reference:"E.M.Bounds" },
+                {text: "La gratitud cambia la perspectiva de la vida.", reference: "Max Lucano" },
+                {text: "No te rindas, porque Dios esta contigo.", reference: "2 Crónicas 15:2" },
+                {text: "El amor de Dios es el fundamento de nuestra esperanza.", reference: "Charles Spurgeon" },
+                {text: "La fe sin obras es muerta.", reference: "Santiago 2:26" },
+                {text: "Ustedes son la luz que alumbra al mundo. Una ciudad que está en un monte no se puede esconder. Ni se enciende una lámpara para ponerla debajo de un cesto, sino sobre el candelero para que ilumine a todos en la casa. Así mismo, ustedes deben ser luz para los demás de tal manera que todos puedan ver sus buenas obras y adoren a su Padre que está en los cielos.", reference: "Mateo 5:14-16 (PDT)" },
+                {text: "Vengan a mi, todos los que están cansados y cargados, y yo les daré descanso.", reference: "Mateo 11:28" },
+                {text: "Si Dios puso un Goliat en tu vida, es porque vio un David en vos.", reference: "Joyce Meyer" },
+                {text: "No teman, porque yo estoy con ustedes; no se desanimen, porque yo soy su Dios. Los fortaleceré y los ayudaré; los sostendré con mi mano derecha victoriosa.", reference: "Isaias 41:10" },
+                {text: "Mi Dios suplirá todas sus necesidades según las riquezas de su gloria en Cristo Jesús.", reference: "Filipenses 4:19" },
+                {text: "Castiga a tu hijo mientras haya esperanza, pero no te dejes llevar por la ira hasta el punto de matarlo.", reference: "Proverbios 19:18" },
+                {text: "Porque Dios no nos ha dado un espíritu de timidez, sino de poder, de amor y de dominio propio.", reference: "Timoteo 1:7" },
+                {text: "Y si Dios es fiel, que no permitirá que ustedes sean tentados mas allá de lo que pueden resistir. Pero junto con la tentación, él también proveerá la manera de escapar para que puedan resistirla.", reference: "1 Corintios 10:13" },
+                {text: "Auque pase el tiempo se, que su promesa cumplira.", reference:"Julio Melgar" },
+                {text: "Porque yo sé los planes que tengo para ustedes (declara el señor), planes de bienestar y no de calamidad, para darles un futuro y una esperanza.", reference: "Jeremias 29:11" },
+            ];
+
+function getDailyVerse() {
+                const currentDate = new Date();
+                const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
+                const diff = currentDate - startOfYear;
+                const oneDay = 1000 * 60 * 60 * 24;
+                const dayOfYear = Math.floor(diff / oneDay);
+                return verses[dayOfYear % verses.length];
+            }
+
+const dailyVerse = getDailyVerse();
+            const verseText = dailyVerse.text;
+            const verseReference = dailyVerse.reference;
+            const verseElement = document.getElementById("verse-text");
+
+            if (verseText.length > 80) {
+                verseElement.style.fontSize = '-1em';
+            } else {
+                verseElement.style.fontSize = '1.2em';
+            }
+
+
+            verseElement.textContent = verseText;
+            document.getElementById("verse-reference").textContent = verseReference;
+
+            document.getElementById("share-button").addEventListener("click", function() {
+                const shareText = `_Palabra Diaria:_\n\n*_${verseText} - ${verseReference}_*\n\nhttps://play.google.com/store/apps/details?id=vitalix.com`;
+                const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+
+            document.querySelectorAll('.option-button, .iniciar-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    button.style.transform = 'rotateY(360deg)';
+                    setTimeout(() => {
+                        window.location.href = button.getAttribute('onclick').split("'")[1];
+                    }, 300);
+                });
+            });
+
+            // Manejo del menú lateral
+            const menuIcon = document.getElementById("menu-icon");
+            const sidebar = document.getElementById("sidebar");
+
+            menuIcon.addEventListener("click", function() {
+                sidebar.classList.toggle("visible");
+                menuIcon.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function(event) {
+                if (!menuIcon.contains(event.target) && !sidebar.contains(event.target)) {
+                    sidebar.classList.remove("visible");
+                    menuIcon.classList.remove("hidden");
+                }
+            });
+
+            // Manejo del submenú
+            const moreButton = document.getElementById("more-button");
+            const submenu = document.getElementById("submenu");
+
+            moreButton.addEventListener("click", function() {
+                const isVisible = submenu.style.display === 'block';
+                submenu.style.display = isVisible ? 'none' : 'block';
+            });
+
+            document.addEventListener("click", function(event) {
+                if (!moreButton.contains(event.target) && !submenu.contains(event.target)) {
+                    submenu.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
