@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitalix</title>
+    <meta name="description" content="Aplicación cristiana para el estudio bíblico y la oración.">
+    <meta name="keywords" content="cristiano, biblia, oración, estudio bíblico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #333;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        /* Título */
+        .title {
+            text-align: center;
+            font-weight: 500;
+            background-color: #f8f8f8; /* Fondo blanco estilo iPhone */
+            border-bottom: 0.5px solid #5E17EB;
+            height: 74px;
+        }
+        
+        h1 {
+          font-size: 36px;
+          text-align: center;
+          color: #333;
+          font-family: 'Lora', serif;
+          transition: all 0.3s ease;
+          position: center;
+        }
+        
+/* menu icono */
+#menu-icon {
+    position: fixed;
+    top: 30px;
+    left: 20px;
+    font-size: 28px;
+    color: #333333;
+    cursor: pointer;
+    z-index: 1001;
+    transition: opacity 0.3s ease;
+}
+
+        /* Contenido principal */
+        .main-content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+.verse-card {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 60%, rgba(0, 0, 0, 0.2) 100%);
+    background-color: grey; /* Fondo alternativo */
+    background-size: cover;
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    margin-bottom: 20px;
+    position: relative;
+    min-height: 150px;
+    transition: background-image 0.5s ease-in-out; /* Transición suave para el cambio de imagen */
+}
+
+.img1 {
+    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3Mwzyz6AdwuoIP2-QdAZXIq78-7OmMUPrYZWypbLdV_hmA53yYUR_zf1LB09dBzAhGndgR914DcB-MozpzJ4VoSRiUbGOAebxKjZeUeD80d2E0BCO46FlOlpT0obhIu4poxcIXmyTfh-4Qpeid8xORa7N5tbR2R3V2Uc_0XlMdMpQ3yQ-ovtvkPQK3kMg/w512-h325-p-k-no-nu/iso-republic-soft-colorful-gradient-background-450x300.jpg');
+}
+
+.img2 {
+    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiAcmgKPFtMk2c85gUkFb4_SIgv1VdKC-ObXY60QKL7HzdE7_zeXYEyPFLlLDOtjmWgxlHeKk1_NPxOyI-W8CCsS0o8ttbLIX-kvA1pB97jgATIVptu0W2zwXwy-6GZuq2P2nEewzyQHOzmokNQutDqShMQY-vJxGTpNSypyWif8jMvgSzQ_QngCMYe8kaw/w512-h325-p-k-no-nu/pngtree-a-bible-was-placed-in-the-foreground-image_10209206.jpg');
+}
+
+.img3 {
+    background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiA-PpdKIZG4oar_8CwyOVqWPCKCOYRI-a26sAhhOOl99Cfw3fY4g6b9Czmm9W-lC9jluMa2Y2IVIPsf2u_x-gCBF8zL79ylT-knrhFNxtSTJ9yHJTotfoowarbTwEtxzRnvXCXg3ld7p12iZYNrd6khPOXK9uURC19DOx40CJiPRfixxVRNeh4EXMlQtCp/w512-h325-p-k-no-nu/000000_569685224_kdpmpp2m15_PS7.5_Fondo_de_pantalla_horizontal_de_un_zorro,_en_donde_hay_hojas_a_ambos_lados_del_zorro,_en_un_escenario_de_bosque_durante_el_amanece_%5Bupscaled%5D.jpg');
+}
+
+.img4 {
+  background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjiDPyoyVNyh8iZmDZ60GnbqRiVvNwLlepbl-OF9BkdNiEcaa4r270eJ8JGExHbzfjy1yr668YMJcNYKADWK2aAWpDmO6F7MluvAzAoNqGZw_hZfhaWVmW0Heb_Thm6e7UU9uATAbDpfQdLAwA4ZlVQWTLfkfxJ7hxz6bjY4L7uWVSMeAiFIC4ThmGGoP1d/w512-h325-p-k-no-nu/53045087786ed4b34507fa348321d0f1.jpg');
+}
+
+.img5 {
+  background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdOO170-txoR7xEGknVBFDldU2T4Mkq1KDfqPMmb1qGCdhqT3iFzhTmRAi3HGk1wZ8YwRH0NBL4uSJwOX6nFlCtSf4KmZNaN7gwJhmR_-aDxEesd76fnwGq1tOFJxdTzl8oKqUr4I7WpKuwyFjft-xwDzCF8RVHsmwxgyyx5dy_w5bhMo0LJ6MLLS_9I1A/w512-h325-p-k-no-nu/abierto-biblia.jpg');
+}
+
+.img6 {
+  background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgTDK4a0xxJjHgW-xZXEt0eBjDmmlNoJ3jbi-OA2a9YuojP6-kYg03jcMUgvNjpZuLEI4f4EYgTE8gRLws4-k-mxqwOQqkJtXJLB1PsGMZ5IlI-skxdy8uNO0vNocsn0uR1LTiUftzK18AsTRGCU3KpmnTptZrizcBdYOAaPnWuWSEVQkzylJeiPw9WfpMC/w512-h325-p-k-no-nu/pngtree-the-holy-bible-open-in-a-dark-table-image_2577557.jpg');
+}
+
+        .verse-text {
+            font-size: 12px;
+            font-weight: ;
+            margin-bottom: 10px;
+        }
+
+        .verse-reference {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verse-content {
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .verse-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .verse-actions span {
+            font-size: 12px;
+            color: #ddd;
+        }
+
+        .verse-actions i {
+            font-size: 26px;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: color 0.3s;
+            margin-left: 300px; /* Mueve el ícono 20px hacia la derecha */
+            margin-top: 29px;
+        }
+
+        .verse-actions i:hover {
+            color: green;
+        }
+
+        .option-card {
+            background-color: #f2f2f2; /* Color gris claro */
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .option-card:hover {
+            background-color: #eaeaea;
+        }
+
+        .option-card i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #333333; /* Color secundario */
+        }
+
+        .option-card h3 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .option-card p {
+            margin: 5px 0;
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Barra de navegación inferior */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            background-color: #fff;
+            border-top: 1px solid #5E17EB;
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .nav-item button {
+            background: none;
+            border: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .nav-item button i {
+            font-size: 24px;
+            margin-bottom: 2px;
+            color: #333333; /* Color secundario */
+        }
+        
+
+        @media (max-width: 600px) {
+            .option-card h3 {
+                font-size: 16px;
+            }
+
+            .option-card p {
+                font-size: 10px;
+            }
+
+            .nav-item button i {
+                font-size: 21px;
+            }
+        }
+        
+.new-badge {
+    position: absolute;
+    top: -9px;
+    right: -7px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.new-badge i {
+    font-size: 14px;
+}
+
+.option-card {
+    position: relative;
+    padding: 15px;
+    color: #ffffff;
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.option-card:hover {
+    transform: translateY(-3px); /* Añade un efecto de elevación */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra para dar efecto 3D */
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* menu lateral */
+.sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #ffffff;
+    border-right: 1px solid #ccc;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1000;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.sidebar.visible {
+    display: block;
+    transform: translateX(0);
+}
+
+.sidebar button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar button i {
+    margin-right: 10px;
+}
+
+.sidebar button:hover {
+    transform: translateX(5px); /* Desplazamiento lateral al pasar el cursor */
+}
+
+.sidebar .whatsapp {
+    background-color: #25d366;
+}
+
+.sidebar .whatsapp:hover {
+    background-color: #1ebd59;
+}
+
+.sidebar .instagram {
+    background-color: #e4405f;
+}
+
+.sidebar .instagram:hover {
+    background-color: #c13584;
+}
+
+.sidebar .Boton {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.sidebar .Boton:hover {
+    background-color: grey;
+}
+
+/* mensaje flotante */
+.mensaje-flotante {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-bottom: grey;
+    border-radius: 15px;
+    width: 250px; /* Tamaño más pequeño */
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none; /* Oculto por defecto */
+    z-index: 1000;
+    text-align: center;
+    animation: fadeIn 0.9s ease; /* Animación de entrada suave */
+}
+
+.contenido-mensaje h2 {
+    color: #333; /* Color de texto gris oscuro */
+    margin: 0 0 10px 0;
+    font-size: 18px; /* Tamaño de fuente más pequeño */
+    font-weight: 600;
+}
+
+.contenido-mensaje p {
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+    color: #666; /* Color de texto gris claro */
+    margin-bottom: 15px;
+}
+
+.contenido-mensaje button {
+    background-color: #5E17EB; /* Color azul iPhone */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.contenido-mensaje button:hover {
+    background-color: #005bbb; /* Azul más oscuro al pasar el ratón */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+    </style>
+</head>
+<body>
+    <!-- titulo y menu lateral -->
+    <div class="title">
+      <h1>Vitalix</h1>
+      <i id="menu-icon" class="fas fa-bars"></i>
+    </div>
+    <div class="sidebar" id="sidebar">
+      
+        <button class="whatsapp" onclick="window.open('https://whatsapp.com/channel/0029VaegJ3b05MUX0CL3ZZ2R', '_blank')">
+            <i class="fab fa-whatsapp"></i>Canal de Whatsapp
+        </button>
+        
+        <button class="instagram" onclick="window.open('https://www.instagram.com/vitalix.oficial?igsh=MWR1Yzl0ejQ4bGFteg==', '_blank')">
+            <i class="fab fa-instagram"></i>Instagram
+        </button>
+        
+        <button class="Boton" onclick="Menu()">
+            <i class="fas fa-bars"></i>Menu
+        </button>
+        
+        <button class="Boton" onclick="Mas()">
+            <i class="fas fa-plus"></i>Mas Opciones
+        </button>
+        
+        <button class="Boton" onclick="Compartir()">
+            <i class="fas fa-share"></i>Compartir
+        </button>
+        
+        <button class="Boton" onclick="Diario()">
+            <i class="fas fa-book"></i>Diario Espiritual
+        </button>
+        
+        <button class="Boton" onclick="IA()">
+            <i class="fas fa-bolt"></i>Asistente IA
+        </button>
+        
+    </div>
+    
+
+<!-- pagina principal -->
+    <main class="main-content">
+        <section>
+            <h2 class="section-title">Palabra Diaria</h2>
+            <div class="verse-card" id="verse-card">
+                <div class="verse-text">Versiculo del Día</div>
+                <div class="verse-reference" id="verse-reference"></div>
+                <div class="verse-content" id="verse-content"></div>
+                <div class="verse-actions">
+                    <i class="fab fa-whatsapp" id="share-whatsapp" onclick="shareOnWhatsApp()"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Opciones adicionales -->
+        <section>
+            <a href="go:Videos" class="option-card">
+                <i class="fas fa-video"></i>
+                <div>
+                    <h3>Videos
+                    </h3>
+                    <p>Predicas y reflexiones.</p>
+                </div>
+            </a>
+            <a href="go:Snake" class="option-card">
+                <i class="fas fa-gamepad"></i>
+                <div>
+                    <span class="new-badge">Nuevo</span>
+                    <h3>Snake game
+                    </h3>
+                    <p>Diviertete en el Juego de la Serpiente futuristica.</p>
+                </div>
+            </a>
+            <a href="go:Maranata" class="option-card">
+                <i class="fas fa-church"></i>
+                <div>
+                    <h3>Maranata</h3>
+                    <p>Reuniones en vivo.</p>
+                </div>
+            </a>
+            <a href="go:Diario" class="option-card">
+                <i class="fas fa-book"></i>
+                <div>
+                    <span class="new-badge">Mejorado</span>
+                    <h3>Diario Espiritual</h3>
+                    <p>Toma nota de lo que sea. ¡Haz doble click en una nota!</p>
+                </div>
+            </a>
+        </section>
+    </main>
+    
+<!-- mensaje flotante -->
+    <div id="mensaje-flotante" class="mensaje-flotante">
+        <div class="contenido-mensaje">
+            <h2 id="mensaje-titulo">Novedades</h2>
+            <p id="mensaje-texto">Hemos implementado una funcion para que cada dia cambie la imagen de fondo de los versiculos.</p>
+            <button onclick="cerrarMensaje()">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Barra de navegación inferior -->
+    <footer class="bottom-nav">
+        <div class="nav-item">
+            <button onclick="location.href='go:Recursos'"><i class="fas fa-tasks"></i><span>Recursos</span></button>
+        </div>
+        <div class="nav-item">
+            <button onclick="location.href='go:Mas'"><i class="fas fa-plus"></i><span>Mas</span></button>
+        </div>
+        <div class="nav-item">
+            <button onclick="location.href='go:Novedad'"><i class="fas fa-info"></i><span>Novedades</span></button>
+        </div>
+        <div class="nav-item">
+            <button onclick="location.href='http://action_profile'"><i class="fas fa-user"></i><span>Mi Cuenta</span></button>
+        </div>
+    </footer>
+
+    <script>
+const verses = [
+                { text: "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.", reference: "Juan 3:16" },
+                { text: "El Señor es mi pastor; nada me faltará.", reference: "Salmos 23:1" },
+                { text: "Todo lo puedo en Cristo que me fortalece.", reference: "Filipenses 4:13" },
+                { text: "Confía en el Señor con todo tu corazón y no te apoyes en tu propia prudencia.", reference: "Proverbios 3:5" },
+                { text: "Bienaventurados los que tienen hambre y sed de justicia, porque ellos serán saciados.", reference: "Mateo 5:6" },
+                { text: "El amor es paciente, es bondadoso. El amor no es envidioso ni jactancioso ni orgulloso.", reference: "1 Corintios 13:4" },
+                { text: "El que guarda su boca y su lengua, su alma guarda de angustias.", reference: "Proverbios 21:23" },
+                { text: "Porque donde esté vuestro tesoro, allí estará también vuestro corazón.", reference: "Mateo 6:21" },
+                { text: "Hijitos míos, no amemos de palabra ni de lengua, sino de hecho y en verdad.", reference: "1 Juan 3:18" },
+                { text: "Cree en el Señor Jesucristo, y serás salvo, tú y tu casa.", reference: "Hechos 16:31" },
+                { text: "Si alguno no provee para los suyos, y especialmente para los de su casa, ha negado la fe y es peor que un incrédulo.", reference: "1 Timoteo 5:8" },
+                { text: "La sabiduría de lo alto es primeramente pura, después pacífica, amable, benigna, llena de misericordia y de buenos frutos, sin incertidumbre ni hipocresía.", reference: "Santiago 3:17" },
+                { text: "Y el Dios de esperanza os llene de todo gozo y paz en el creer, para que abundéis en esperanza por el poder del Espíritu Santo.", reference: "Romanos 15:13" },
+                { text: "Pero los que esperan a Jehová tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.", reference: "Isaias 40:31" },
+                { text: "Porque la tierra será llena del conocimiento de la gloria de Jehová, como las aguas cubren el mar.", reference: "Habacuc 2:14" },
+                { text: "Ahora permanece la fe, la esperanza y el amor; estos tres pero el mayor de ellos es el Amor.", reference: "1 Corintios 13:13" },
+                { text: "porque todo aquel que invocare el nombre del Señor, será salvo.", reference: "Romanos 10:13" },
+                { text: "Pacientemente esperé a Jehová, Y se inclinó a mí, y oyó mi clamor.  Y me hizo sacar del pozo de la desesperación, del lodo cenagoso; Puso mis pies sobre peña, y enderezó mis pasos.", reference: "Salmos 40:1-2" },
+                { text: "Por lo cual dice: Despiértate, tú que duermes, Y levántate de los muertos, Y te alumbrará Cristo.", reference: "Efesios 5:14" },
+                { text: "Dios es nuestro refugió y nuestra fuerza, siempre dispuesto a ayudarnos en tiempos de dificultad.", reference: "Salmos 46:1" },
+                { text: "La fe es la certeza de lo que esperamos y la convicción de lo que no vemos.", reference: "Hebreos 11:1" },
+                { text: "Clama a mí, y yo te responderé, y te enseñaré cosas grandes y ocultas que tú no conoces.", reference: "Jeremías 33:3" },
+                {text: "Mas vosotros sois linaje escogido, real sacerdocio, nación santa, pueblo adquirido por Dios, para que anunciéis las virtudes de aquel que os llamó de las tinieblas a su luz admirable.", reference:"1 Pedro 2:9" },
+                {text: "no mirando nosotros las cosas que se ven, sino las que no se ven; pues las cosas que se ven son temporales, pero las que no se ven son eternas.", reference:"1 Corintios 4:18" },
+                {text: "Dios no nos promete una vida facil, pero nos promete estar con nosotros en todo momento.", reference:"Rick Warren" },
+                {text: "No te rindas, porque Dios esta contigo.", reference: "2 Crónicas 15:2" },
+                {text: "La fe sin obras es muerta.", reference: "Santiago 2:26" },
+                {text: "Vengan a mi, todos los que están cansados y cargados, y yo les daré descanso.", reference: "Mateo 11:28" },
+                {text: "No teman, porque yo estoy con ustedes; no se desanimen, porque yo soy su Dios. Los fortaleceré y los ayudaré; los sostendré con mi mano derecha victoriosa.", reference: "Isaias 41:10" },
+                {text: "Mi Dios suplirá todas sus necesidades según las riquezas de su gloria en Cristo Jesús.", reference: "Filipenses 4:19" },
+                {text: "Castiga a tu hijo mientras haya esperanza, pero no te dejes llevar por la ira hasta el punto de matarlo.", reference: "Proverbios 19:18" },
+                {text: "Porque Dios no nos ha dado un espíritu de timidez, sino de poder, de amor y de dominio propio.", reference: "Timoteo 1:7" },
+                {text: "Y si Dios es fiel, que no permitirá que ustedes sean tentados mas allá de lo que pueden resistir. Pero junto con la tentación, él también proveerá la manera de escapar para que puedan resistirla.", reference: "1 Corintios 10:13" },
+                {text: "Porque yo sé los planes que tengo para ustedes (declara el señor), planes de bienestar y no de calamidad, para darles un futuro y una esperanza.", reference: "Jeremias 29:11" },
+                {text: "Porque nada hay imposible para Dios.", reference: "Lucas 1:37" },
+                {text: "Y él le dijo: Hija, tu fe te ha salvado; ve en paz.", reference: "Lucas 8:48" },
+                {text: "Tardará un poco en cumplirse, pero tú no te desesperes; aún no ha llegado la hora de que todo esto se cumpla, pero puedo asegurarte que se cumplirá sin falta.", reference: "Habacuc 2:3 (TLA)" },
+                {text: "Pon tu esperanza en el Señor; cobra ánimo y ármate de valor, ¡Pon tu esperanza en el Señor!.",
+                reference: "Salmos 27:14 (NVI)" },
+                {text: "Jehová es bueno, fortaleza en el día de la angustia; y conoce a los que en él confían.",
+                reference: "Nahúm 1:7" },
+                {text: "Dijo luego Jehová a Noé: Entra tú y toda tu casa en el arca; porque a ti he visto justo delante de mí en esta generación.",
+                reference: "Genesis 7:1" },
+                {text: "Jesus lloro.",
+                reference: "Juan 11:35" },
+                {text: "Porque yo sé que Jehová es grande, Y el señor nuestro, mayor que todos los dioses. Todo lo que Jehová quiere, lo hace, en los cielos y en la tierra, en los mares y en todos los abismos.", reference: "Salmos 135:5-6" },
+                {text: "El que es fiel en lo muy poco, también en lo más es fiel; y el que en lo muy poco es injusto, también en lo más es injusto.", reference: "Lucas 16:10" },
+                {text: "Ninguna arma forjada contra ti prosperará, y condenarás toda lengua que se levante contra ti en juicio. Esta es la herencia de los siervos de Jehová, y su salvación de mí vendrá, dijo Jehová.", reference: "Isaias 54:17" },
+];
+
+function getTodayDate() {
+    return new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+}
+
+function loadVerse() {
+    const today = getTodayDate();
+    const lastUpdate = localStorage.getItem('verseDate');
+    const storedVerseCount = parseInt(localStorage.getItem('verseCount'), 10);
+
+    // Verifica si la cantidad de versículos ha cambiado
+    if (storedVerseCount !== verses.length) {
+        resetLocalStorage();
+    }
+
+    // Si el versículo ya fue cargado hoy, usar el almacenamiento local
+    if (lastUpdate === today) {
+        const verseContent = localStorage.getItem('verseContent');
+        const verseReference = localStorage.getItem('verseReference');
+
+        if (verseContent && verseReference) {
+            displayVerse(verseContent, verseReference);
+            return;
+        }
+    }
+
+    // Si no, seleccionar un versículo aleatorio y guardarlo
+    const randomVerse = verses[Math.floor(Math.random() * verses.length)];
+
+    localStorage.setItem('verseDate', today);
+    localStorage.setItem('verseContent', randomVerse.text);
+    localStorage.setItem('verseReference', randomVerse.reference);
+    localStorage.setItem('verseCount', verses.length); // Guardar el nuevo conteo de versículos
+
+    displayVerse(randomVerse.text, randomVerse.reference);
+}
+
+function resetLocalStorage() {
+    localStorage.removeItem('verseDate');
+    localStorage.removeItem('verseContent');
+    localStorage.removeItem('verseReference');
+    localStorage.setItem('verseCount', verses.length); // Establece el nuevo conteo de versículos
+}
+
+function displayVerse(content, reference) {
+    const verseContentElement = document.getElementById('verse-content');
+    const verseReferenceElement = document.getElementById('verse-reference');
+
+    if (verseContentElement && verseReferenceElement) {
+        verseContentElement.textContent = content;
+        verseReferenceElement.textContent = reference;
+    } else {
+        console.warn("Elementos HTML para mostrar el versículo no encontrados.");
+    }
+}
+
+// Llamar a la función para cargar el versículo cuando se carga la página
+loadVerse();
+
+
+        function shareOnWhatsApp() {
+            const verseContent = document.getElementById('verse-content').textContent;
+            const verseReference = document.getElementById('verse-reference').textContent;
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(verseContent)} - ${encodeURIComponent(verseReference)} https://play.google.com/store/apps/details?id=vitalix.com`;
+            window.open(url, '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadVerse();
+        });
+        
+            // Manejo del menú lateral
+            const menuIcon = document.getElementById("menu-icon");
+            const sidebar = document.getElementById("sidebar");
+
+            menuIcon.addEventListener("click", function() {
+                sidebar.classList.toggle("visible");
+                menuIcon.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function(event) {
+                if (!menuIcon.contains(event.target) && !sidebar.contains(event.target)) {
+                    sidebar.classList.remove("visible");
+                    menuIcon.classList.remove("hidden");
+                }
+            });
+function Micuenta() {
+  window.location.href = 'http://action_profile';
+}
+        
+function Menu() {
+  window.location.href = 'go:Menu';
+}
+
+function Mas() {
+  window.location.href = 'go:Mas';
+}
+
+function Compartir() {
+  window.location.href = 'http://action_share';
+}
+
+function Diario() {
+  window.location.href = 'go:Diario';
+}
+
+function IA() {
+  window.location.href = 'go:Mantenimie';
+}
+
+
+// mensaje flotante
+window.onload = function() {
+    mostrarMensaje();
+}
+
+function mostrarMensaje() {
+    const mensajeTitulo = document.getElementById('mensaje-titulo').innerText;
+    const mensajeTexto = document.getElementById('mensaje-texto').innerText;
+    
+    const mensajeGuardado = localStorage.getItem('mensaje-flotante');
+    
+    // Comprobar si el mensaje ha cambiado
+    if (mensajeGuardado !== `${mensajeTitulo}||${mensajeTexto}`) {
+        document.getElementById('mensaje-flotante').style.display = 'block';
+        localStorage.setItem('mensaje-flotante', `${mensajeTitulo}||${mensajeTexto}`);
+    }
+}
+
+function cerrarMensaje() {
+    document.getElementById('mensaje-flotante').style.display = 'none';
+}
+
+function BotonMensaje() {
+  window.location.href = 'https://wa.me/+541125574614?text=Hola%21%20Quiero%20predicar%20en%20Vitalix';
+}
+
+
+// Manejo del fondo de los versiculos
+const clasesImagenes = ['img1', 'img2', 'img3', 'img4', 'img5', 'img6'];
+let ultimoDia = new Date().getDate(); // Almacena el día actual
+
+// Seleccionar la clase en base a la fecha actual
+function obtenerClaseAleatoria() {
+    const fechaActual = new Date();
+    const diaActual = fechaActual.getDate();
+    const indiceImagen = diaActual % clasesImagenes.length; // Cambia la clase cada día
+    return clasesImagenes[indiceImagen];
+}
+
+// Cambiar la clase del card
+function cambiarClaseDeFondo() {
+    const cart = document.querySelector('.verse-card');
+    const claseActual = obtenerClaseAleatoria();
+    
+    // Remover las clases anteriores
+    cart.classList.remove(...clasesImagenes);
+    
+    // Agregar la clase nueva
+    cart.classList.add(claseActual);
+}
+
+// Función para verificar si ha cambiado el día
+function verificarCambioDeDia() {
+    const fechaActual = new Date();
+    const diaActual = fechaActual.getDate();
+    
+    if (diaActual !== ultimoDia) {
+        ultimoDia = diaActual;
+        cambiarClaseDeFondo();
+    }
+}
+
+// Ejecutar cuando la página cargue
+window.onload = function() {
+    cambiarClaseDeFondo(); // Cambia la imagen al cargar
+
+    // Comprobar el cambio de día cada hora (3600000 ms = 1 hora)
+    setInterval(verificarCambioDeDia, 3600000);
+};
+
+
+    </script>
+</body>
+</html>
